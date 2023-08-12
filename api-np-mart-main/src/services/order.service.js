@@ -1,6 +1,6 @@
-import Order from "../models/Order.js";
-import OrderItem from "../models/OrderItem.js";
-import { khalti } from "../utils/khalti.js";
+import Order from '../models/Order.js';
+import OrderItem from '../models/OrderItem.js';
+import { khalti } from '../utils/khalti.js';
 
 const getAll = () => {
   return Order.find();
@@ -8,35 +8,47 @@ const getAll = () => {
 
 const create = async (data) => {
   const order = await Order.create(data);
-  const items = data.items;
-  data.items.map((item) => {
-    const orderItem = OrderItem.create({
+  const orderItems = data.items.map((item) => {
+    OrderItem.create({
       order: order._id,
       product: item.product._id,
+      quantity: item.quantity,
       price: item.product.price,
     });
   });
-
-  try {
-    const res = await khalti.post("epayment/initiate", {
-      return_url: "http://127.0.0.1:5173/checkout",
-      website_url: "http://127.0.0.1:5174/",
-      amount: 10000,
-      purchase_order_id: "1934",
-      purchase_order_name: "Shoe",
-    });
-
-    console.log(res);
-  } catch (err) {
-    console.log(err.message);
-  }
-
   return order;
+};
+
+const getMyOrders = async (userId) => {
+  // All Orders That Has Been Placed By The User
+  const orders = await Order.find({
+    user: Object(`${userId}`),
+  });
+
+  // All The Ordered Items
+  const orderItems = await Promise.all(
+    orders.map(async (item) => {
+      return await OrderItem.find({
+        order: item._id.toString(),
+      }).populate('product');
+    })
+  );
+  const allOrderItems = [].concat(...orderItems);
+
+  return allOrderItems;
+};
+
+const cancelOrder = async (orderId) => {
+  const deletedOrder = await Order.findByIdAndDelete(orderId);
+
+  return deletedOrder;
 };
 
 const OrderService = {
   getAll,
   create,
+  getMyOrders,
+  cancelOrder,
 };
 
 export default OrderService;

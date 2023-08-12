@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-const accessToken = JSON.parse(localStorage.getItem("accessToken"));
+const accessToken = JSON.parse(localStorage.getItem('accessToken'));
 
 const http = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -13,7 +13,7 @@ export const api = {
   url: import.meta.env.VITE_API_URL,
   auth: {
     getToken: () => {
-      const accessToken = JSON.parse(localStorage.getItem("accessToken"));
+      const accessToken = JSON.parse(localStorage.getItem('accessToken'));
       return accessToken;
     },
     register: ({ name, email, password, confirmPassword }) => {
@@ -25,7 +25,7 @@ export const api = {
       });
     },
     me: () => {
-      const accessToken = JSON.parse(localStorage.getItem("accessToken"));
+      const accessToken = JSON.parse(localStorage.getItem('accessToken'));
       if (!accessToken) return Promise.resolve(null);
       return axios.get(`${api.url}/auth/me`, {
         headers: {
@@ -68,12 +68,12 @@ export const api = {
     },
 
     onAuthStateChange: (callback) => {
-      document.addEventListener("onAuthStateChange", async (e) => {
+      document.addEventListener('onAuthStateChange', async (e) => {
         const data = await api.auth.me();
         callback(data);
       });
 
-      document.dispatchEvent(new Event("onAuthStateChange"));
+      document.dispatchEvent(new Event('onAuthStateChange'));
     },
   },
 
@@ -127,10 +127,10 @@ export const api = {
   },
   products: {
     getAll: () => {
-      return http.get("/products");
+      return http.get('/products');
     },
     create: ({ ...data }) => {
-      return http.post("/products", data);
+      return http.post('/products', data);
     },
     update: ({ id, ...data }) => {
       return http.put(`/products/${id}`, data);
@@ -142,13 +142,18 @@ export const api = {
       return http.get(`/products/${id}`);
     },
   },
-
   orders: {
     getAll: () => {
       return http.get(`/orders`);
     },
     create: ({ ...data }) => {
-      return http.post("/orders", data);
+      return http.post('/orders', data);
+    },
+    myOrders: () => {
+      return http.get('/orders/my-orders');
+    },
+    cancelOrder: ({ id }) => {
+      return http.delete(`/orders/${id}`);
     },
   },
   payments: {
@@ -156,7 +161,7 @@ export const api = {
       return http.get(`/payments`);
     },
     create: ({ ...data }) => {
-      return http.post("/payments", data);
+      return http.post('/payments', data);
     },
   },
 };
