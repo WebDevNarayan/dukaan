@@ -1,10 +1,8 @@
-import { Button, Flex, Paper, Title, clsx, createStyles } from "@mantine/core";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Flex, Paper, Title, createStyles } from "@mantine/core";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { DataTable } from "mantine-datatable";
 import React, { useState } from "react";
-import { TbCheck, TbPlus, TbX } from "react-icons/tb";
 import { api } from "../../../utils/api";
-import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   icon: {

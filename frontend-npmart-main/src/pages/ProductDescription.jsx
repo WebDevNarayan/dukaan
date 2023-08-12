@@ -12,7 +12,7 @@ import {
 import { useCart } from "@react-providers/cart";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
-import { QuantityInput } from "../components/QuantityInput";
+// import { QuantityInput } from "../components/QuantityInput";
 import { api } from "../utils/api";
 
 const ProductDescriptionPage = () => {

@@ -1,6 +1,5 @@
 import {
   Container,
-  MediaQuery,
   Paper,
   SimpleGrid,
   TextInput,
@@ -108,3 +107,4 @@ const LandingPage = () => {
   );
 };
 export default LandingPage;
+
