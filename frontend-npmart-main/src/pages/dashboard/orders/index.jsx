@@ -27,10 +27,7 @@ const OrderIndex = () => {
     queryFn: api.orders.getAll,
   });
 
-  const [selected, setSelected] = useState(null);
-  const queryClient = useQueryClient();
-
-  const { classes } = useStyles();
+  console.log("Response data:", response?.data);
 
   return (
     <div>
@@ -59,36 +56,24 @@ const OrderIndex = () => {
 
             {
               accessor: "address1",
-              title: "Address 1",
+              title: "Address",
             },
-            // {
-            //   accessor: "quantity",
-            //   title: "Quantity",
-            // },
-            // {
-            //   accessor: "price",
-            //   title: "Price",
-            // },
+            {
+              accessor: "product",
+              title: "Product",
+            },
+            {
+              accessor: "quantity",
+              title: "Quantity",
+            },
+            {
+              accessor: "price",
+              title: "Price",
+            },
             {
               accessor: "contact",
               title: "Contact",
             },
-
-            // {
-            //   accessor: "status",
-            //   title: "Status",
-            //   render: (record) => {
-            //     const Icon = record.status === "paid" ? TbCheck : TbX;
-            //     return (
-            //       <Icon
-            //         className={clsx(classes.icon, {
-            //           [classes.iconActive]: record.status === "paid",
-            //           [classes.iconDraft]: record.status === "unpaid",
-            //         })}
-            //       />
-            //     );
-            //   },
-            // },
           ]}
         />
       </Paper>
