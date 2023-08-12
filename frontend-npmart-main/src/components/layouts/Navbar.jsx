@@ -10,42 +10,47 @@ import {
   Stack,
   Text,
   TextInput,
-} from "@mantine/core";
-import { Link } from "react-router-dom";
-import { White } from "../logo";
-import { TbMenu2, TbSearch, TbShoppingCart } from "react-icons/tb";
-import { useState } from "react";
-import useUser from "../../hooks/useUser";
+} from '@mantine/core';
+import { Link } from 'react-router-dom';
+import { White } from '../logo';
+import {
+  TbMenu2,
+  TbSearch,
+  TbShoppingCart,
+  TbTruckDelivery,
+} from 'react-icons/tb';
+import { useState } from 'react';
+import useUser from '../../hooks/useUser';
 
-import { useCart } from "@react-providers/cart";
+import { useCart } from '@react-providers/cart';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
     background: theme.colors.dark,
-    height: "60px",
-    position: "sticky",
+    height: '60px',
+    position: 'sticky',
   },
   container: {
-    height: "100%",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 
   leftNav: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
   },
 
   logo: {
-    display: "flex",
-    alignItems: "360px",
+    display: 'flex',
+    alignItems: '360px',
   },
 
   nav: {
-    display: "flex",
+    display: 'flex',
     gap: theme.spacing.md,
-    alignItems: "center",
+    alignItems: 'center',
   },
 
   navLink: {
@@ -54,7 +59,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   cartIcon: {
-    fontSize: "1.5rem",
+    fontSize: '1.5rem',
   },
 }));
 
@@ -77,7 +82,7 @@ const Navbar = () => {
           <MediaQuery
             smallerThan="md"
             styles={{
-              display: "none",
+              display: 'none',
             }}
           >
             <Group>
@@ -90,13 +95,32 @@ const Navbar = () => {
             </Group>
           </MediaQuery>
 
-          <Indicator label={cart.totalQuantity} inline size={18}>
-            <ActionIcon component={Link} to="/cart" color="yellow" size="xl">
-              <TbShoppingCart className={classes.cartIcon} />
-            </ActionIcon>
-          </Indicator>
+          {user ? (
+            <>
+              <Indicator label={cart.totalQuantity} inline size={18}>
+                <ActionIcon
+                  component={Link}
+                  to="/cart"
+                  color="yellow"
+                  size="xl"
+                >
+                  <TbShoppingCart className={classes.cartIcon} />
+                </ActionIcon>
+              </Indicator>
+              <ActionIcon
+                component={Link}
+                to="/my-orders"
+                color="yellow"
+                size="xl"
+              >
+                <TbTruckDelivery className={classes.cartIcon} />
+              </ActionIcon>
+            </>
+          ) : (
+            <></>
+          )}
 
-          <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+          <MediaQuery smallerThan="md" styles={{ display: 'none' }}>
             <Group>
               {!user ? (
                 <>
@@ -110,7 +134,7 @@ const Navbar = () => {
               ) : (
                 <>
                   <Button onClick={logout}>logout</Button>
-                  {user.role === "admin" ? (
+                  {user.role === 'admin' ? (
                     <Button color="blue" component={Link} to="/dashboard">
                       Dashboard
                     </Button>
@@ -127,7 +151,7 @@ const Navbar = () => {
             size="lg"
             sx={(theme) => ({
               [` @media (min-width: ${theme.breakpoints.md}px)`]: {
-                display: "none",
+                display: 'none',
               },
             })}
           >
@@ -180,7 +204,7 @@ const MobileNavbar = ({ opened, setOpened }) => {
               <Button component={Link} to="/auth/login" onClick={logout}>
                 logout
               </Button>
-              {user.role === "admin" ? (
+              {user.role === 'admin' ? (
                 <Button color="blue" component={Link} to="/dashboard">
                   Dashboard
                 </Button>
